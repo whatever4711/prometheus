@@ -1,0 +1,37 @@
+version: '2'
+
+volumes:
+  grafana_db:
+    driver: local
+
+services:
+  prometheus:
+    image: armswarm/prometheus
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+    publish:
+      - 9090:9090
+    command: -config.file=/etc/prometheus/prometheus.yml -storage.local.path=/prometheus -storage.local.memory-chunks=10000
+
+  node_exporter:
+    image: armswarm/node_exporter
+    volumes:
+      - /proc:/host/proc
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    network_mode: "host"
+    publish:
+      - 9100:9100
+    command: -collector.procfs /host/proc -collector.sysfs /host/sys -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
+
+  grafana:
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
+    image: grafana
+    publish:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin_password
+    volumes:
+      - grafana_db:/var/lib/grafana
