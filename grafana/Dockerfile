@@ -12,9 +12,9 @@ RUN cd /go/src/github.com/grafana/grafana \
     && go run build.go build
 RUN cd /go/src/github.com/grafana/grafana \
     && npm install \
-    && npm install -g grunt-cli \
-    && cd /go/src/github.com/grafana/grafana/node_modules/karma-phantomjs-launcher/node_modules/phantomjs && node install \
-    && cd /go/src/github.com/grafana/grafana && grunt \
+    && npm install -g grunt-cli
+RUN cd /go/src/github.com/grafana/grafana/node_modules/karma-phantomjs-launcher/node_modules/phantomjs && node install 
+RUN cd /go/src/github.com/grafana/grafana && grunt
     && npm uninstall -g grunt-cli \
     && npm cache clear \
     && mkdir -p /usr/share/grafana/bin/ \
