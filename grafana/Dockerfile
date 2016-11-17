@@ -1,6 +1,6 @@
 FROM armhf/alpine:3.4
 
-RUN export GRAFANA_VERSION=v2.6.0-beta1 \
+RUN export GRAFANA_VERSION=v3.1.1 \
     && export GOPATH=/go \
     && PATH=$PATH:$GOPATH/bin \
     && apk add --update build-base nodejs go git mercurial \
