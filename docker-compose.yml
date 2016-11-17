@@ -22,7 +22,7 @@ services:
     network_mode: "host"
     publish:
       - 9100:9100
-    command: -collector.procfs /host/proc -collector.sysfs /host/sys -collector.filesystem.ignored-mount-points \"^/(sys|proc|dev|host|etc)($|/)\"
+    command: -collector.procfs /host/proc -collector.sysfs /host/sys -collector.filesystem.ignored-mount-points '"^/(sys|proc|dev|host|etc)($|/)"'
 
   grafana:
     build:
