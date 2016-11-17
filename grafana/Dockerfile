@@ -6,11 +6,12 @@ RUN export GRAFANA_VERSION=v3.1.1 \
     && apk add --update build-base nodejs go git mercurial \
     && mkdir -p /go/src/github.com/grafana && cd /go/src/github.com/grafana \
     && git clone https://github.com/grafana/grafana.git -b ${GRAFANA_VERSION}
-RUN cd grafana \
+RUN cd /go/src/github.com/grafana/grafana \
     && go run build.go setup \
-    && godep restore \
-    && go build .
-RUN npm install \
+#&& godep restore \
+    && go run build.go build
+RUN cd /go/src/github.com/grafana/grafana \
+    && npm install \
     && npm install -g grunt-cli \
     && cd /go/src/github.com/grafana/grafana/node_modules/karma-phantomjs-launcher/node_modules/phantomjs && node install \
     && cd /go/src/github.com/grafana/grafana && grunt \
